@@ -63,7 +63,7 @@ class AlaveteliPro::SubscriptionsController < AlaveteliPro::BaseController
 
     flash[:notice] = _('Welcome to {{pro_site_name}}!',
                        pro_site_name: AlaveteliConfiguration.pro_site_name)
-    redirect_to alaveteli_pro_dashboard_path
+    redirect_to subscription_path
   end
 
   def show

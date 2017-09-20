@@ -76,7 +76,7 @@ describe AlaveteliPro::SubscriptionsController do
         end
 
         it 'redirects to the pro dashboard' do
-          expect(response).to redirect_to(alaveteli_pro_dashboard_path)
+          expect(response).to redirect_to(subscription_path)
         end
 
       end
