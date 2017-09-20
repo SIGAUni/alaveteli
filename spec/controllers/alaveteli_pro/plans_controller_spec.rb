@@ -32,9 +32,9 @@ describe AlaveteliPro::PlansController do
         get :show, id: 'pro'
       end
 
-      it 'redirects to the login form' do
+      it 'redirects to the pro login form' do
         expect(response).
-          to redirect_to(signin_path(:token => PostRedirect.last.token))
+          to redirect_to(pro_signin_path(:token => PostRedirect.last.token))
       end
 
     end

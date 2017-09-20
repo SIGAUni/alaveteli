@@ -614,6 +614,10 @@ Rails.application.routes.draw do
       resources :plans, only: [:show]
       resources :subscriptions, only: [:create]
 
+      match '/pro/sign_up' => '/user#signin',
+            :as => :pro_signin,
+            :via => [:get, :post]
+
       match '/profile/subscriptions' => 'subscriptions#show',
             :as => :subscription,
             :via => :get

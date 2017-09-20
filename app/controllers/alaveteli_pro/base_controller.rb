@@ -37,6 +37,30 @@ class AlaveteliPro::BaseController < ApplicationController
     return false
   end
 
+  # A pro-specific version of authenticated? that pushes the user to the pro
+  # signup route instead of the standard one
+  def pro_authenticated?(reason_params)
+    unless session[:user_id]
+      post_redirect = PostRedirect.new(:uri => request.fullpath,
+                                       :post_params => params,
+                                       :reason_params => reason_params)
+      post_redirect.save!
+      # Make sure this redirect does not get cached - it only applies to this user.
+      # HTTP 1.1
+      headers['Cache-Control'] = 'no-cache, no-store, max-age=0, must-revalidate'
+      # HTTP 1.0
+      headers['Pragma'] = 'no-cache'
+      # Proxies
+      headers['Expires'] = '0'
+      # 'modal' controls whether the sign-in form will be displayed in the typical full-blown
+      # page or on its own, useful for pop-ups
+      redirect_to pro_signin_url(:token => post_redirect.token,
+                                 :modal => params[:modal])
+      return false
+    end
+    return true
+  end
+
   # An override of set_in_pro_area from ApplicationController, because we are
   # always in the pro area if we're using a descendant of this controller.
   # Note that this is called as a before_filter in this class, so that

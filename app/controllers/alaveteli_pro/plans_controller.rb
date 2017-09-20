@@ -20,9 +20,10 @@ class AlaveteliPro::PlansController < AlaveteliPro::BaseController
     post_redirect_params = {
       :web => _('To upgrade your account'),
       :email => _('To upgrade your account'),
-      :email_subject => _('To upgrade your account') }
+      :email_subject => _('To upgrade your account'),
+      :pro => 1 }
 
-    authenticated?(post_redirect_params)
+    pro_authenticated?(post_redirect_params)
   end
 
   def check_existing_subscription
