@@ -41,6 +41,7 @@ class AlaveteliPro::BaseController < ApplicationController
   # signup route instead of the standard one
   def pro_authenticated?(reason_params)
     unless session[:user_id]
+      reason_params.merge!(pro: true)
       post_redirect = set_post_redirect_and_headers(params, reason_params)
       # 'modal' controls whether the sign-in form will be displayed in the
       # typical full-blown page or on its own, useful for pop-ups
