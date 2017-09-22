@@ -8,19 +8,11 @@
 class AlaveteliPro::DashboardController < AlaveteliPro::BaseController
   def index
     @user = current_user
+    @user.reset_phase_counts
     @to_do_list = AlaveteliPro::ToDoList::List.new(@user)
     @page = (params[:page] || "1").to_i
     @page = 1 if @page < 1
     @per_page = 10
     @activity_list = AlaveteliPro::ActivityList::List.new(@user, @page, @per_page)
-    @phase_counts = @user.request_summaries.
-                      joins(:request_summary_categories).
-                      references(:request_summary_categories).
-                      group("request_summary_categories.slug").
-                      count("request_summary_categories.id")
-    @phase_counts = @phase_counts.with_indifferent_access
-    @phase_counts[:total] = @phase_counts.values.reduce(0, :+)
-    @phase_counts[:not_drafts] =
-      @phase_counts[:total] - @phase_counts[:draft].to_i
   end
 end
